@@ -1,0 +1,30 @@
+package com.daroch.ticket.services.impl.ticket;
+
+import com.daroch.ticket.dtos.ticket.response.GetTicketResponseDto;
+import com.daroch.ticket.services.TicketQueryService;
+import java.util.Optional;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class TicketQueryServiceImpl implements TicketQueryService {
+
+  @Override
+  public Optional<GetTicketResponseDto> getTicketForUser(UUID userId, UUID ticketId) {
+    return null;
+  }
+
+  @Override
+  public Page<GetTicketResponseDto> listUpcomingTicketsForUser(UUID userId, Pageable pageable) {
+    return null;
+  }
+
+  @Override
+  public Page<GetTicketResponseDto> listExpiredTicketsForUser(UUID userId, Pageable pageable) {
+    return null;
+  }
+}
