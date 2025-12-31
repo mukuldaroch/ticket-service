@@ -77,7 +77,7 @@ target/
 # =====================
 # Gradle & Build Files
 # =====================
-# .gradle/
+.gradle/
 build/
 bin/
 out/
