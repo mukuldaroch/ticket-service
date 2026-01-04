@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateTicketTypeRequestDto {
+public class CreateTicketTypeRequest{
 
   @NotNull(message = "eventId is required")
   private UUID eventId;

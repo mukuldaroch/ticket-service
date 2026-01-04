@@ -2,8 +2,8 @@ package com.daroch.ticket.services.impl.tickettype;
 
 import com.daroch.ticket.domain.entities.TicketType;
 import com.daroch.ticket.domain.enums.TicketTypeStatusEnum;
-import com.daroch.ticket.dtos.tickettype.response.CreateTicketTypeResponseDto;
-import com.daroch.ticket.dtos.tickettype.response.UpdateTicketTypeResponseDto;
+import com.daroch.ticket.dtos.tickettype.response.CreateTicketTypeResponse;
+import com.daroch.ticket.dtos.tickettype.response.UpdateTicketTypeResponse;
 import com.daroch.ticket.exceptions.BusinessException;
 import com.daroch.ticket.exceptions.TicketTypeNotFoundException;
 import com.daroch.ticket.mappers.TicketTypeMapper;
@@ -28,7 +28,7 @@ public class TicketTypeServiceImpl implements TicketTypeService {
   private final TicketTypeMapper ticketTypeMapper;
 
   //  ------------------------------------------------------------- commands
-  public CreateTicketTypeResponseDto createTicketType(
+  public CreateTicketTypeResponse createTicketType(
       UUID eventId, CreateTicketTypeCommand ticketType) {
 
     if (ticketType == null) {
@@ -49,7 +49,7 @@ public class TicketTypeServiceImpl implements TicketTypeService {
     return ticketTypeMapper.toCreateResponse(ticketTypeToCreate);
   }
 
-  public List<CreateTicketTypeResponseDto> createTicketTypes(
+  public List<CreateTicketTypeResponse> createTicketTypes(
       UUID eventId, List<CreateTicketTypeCommand> ticketTypes) {
 
     if (ticketTypes == null || ticketTypes.isEmpty()) {
@@ -77,8 +77,7 @@ public class TicketTypeServiceImpl implements TicketTypeService {
   }
 
   @Override
-  public UpdateTicketTypeResponseDto updateTicketType(
-      UUID eventId, UpdateTicketTypeCommand command) {
+  public UpdateTicketTypeResponse updateTicketType(UUID eventId, UpdateTicketTypeCommand command) {
 
     TicketType ticketType =
         ticketTypeRepository
@@ -119,14 +118,14 @@ public class TicketTypeServiceImpl implements TicketTypeService {
 
   @Override
   @Transactional
-  public List<UpdateTicketTypeResponseDto> updateTicketTypes(
+  public List<UpdateTicketTypeResponse> updateTicketTypes(
       UUID eventId, List<UpdateTicketTypeCommand> ticketTypesCommand) {
 
     if (ticketTypesCommand == null || ticketTypesCommand.isEmpty()) {
       throw new BusinessException("No ticket types provided for update");
     }
 
-    List<UpdateTicketTypeResponseDto> response = new ArrayList<>();
+    List<UpdateTicketTypeResponse> response = new ArrayList<>();
 
     for (UpdateTicketTypeCommand command : ticketTypesCommand) {
 

@@ -1,11 +1,11 @@
 package com.daroch.ticket.mappers;
 
 import com.daroch.ticket.domain.entities.TicketType;
-import com.daroch.ticket.dtos.tickettype.request.CreateTicketTypeRequestDto;
-import com.daroch.ticket.dtos.tickettype.request.UpdateTicketTypeRequestDto;
-import com.daroch.ticket.dtos.tickettype.response.CreateTicketTypeResponseDto;
-import com.daroch.ticket.dtos.tickettype.response.GetEventTicketTypesResponseDto;
-import com.daroch.ticket.dtos.tickettype.response.UpdateTicketTypeResponseDto;
+import com.daroch.ticket.dtos.tickettype.request.CreateTicketTypeRequest;
+import com.daroch.ticket.dtos.tickettype.request.UpdateTicketTypeRequest;
+import com.daroch.ticket.dtos.tickettype.response.CreateTicketTypeResponse;
+import com.daroch.ticket.dtos.tickettype.response.GetEventTicketTypesResponse;
+import com.daroch.ticket.dtos.tickettype.response.UpdateTicketTypeResponse;
 import com.daroch.ticket.services.commands.tickettype.CreateTicketTypeCommand;
 import com.daroch.ticket.services.commands.tickettype.UpdateTicketTypeCommand;
 import org.mapstruct.Mapper;
@@ -15,15 +15,15 @@ import org.mapstruct.ReportingPolicy;
 public interface TicketTypeMapper {
 
   // -------- Incoming (API → Application) --------
-  CreateTicketTypeCommand toCommand(CreateTicketTypeRequestDto dto);
+  CreateTicketTypeCommand toCommand(CreateTicketTypeRequest dto);
 
-  UpdateTicketTypeCommand toCommand(UpdateTicketTypeRequestDto dto);
+  UpdateTicketTypeCommand toCommand(UpdateTicketTypeRequest dto);
 
   // -------- Outgoing (Domain → API) --------
 
-  CreateTicketTypeResponseDto toCreateResponse(TicketType ticketType);
+  CreateTicketTypeResponse toCreateResponse(TicketType ticketType);
 
-  GetEventTicketTypesResponseDto toGetResponse(TicketType ticketType);
+  GetEventTicketTypesResponse toGetResponse(TicketType ticketType);
 
-  UpdateTicketTypeResponseDto toUpdateResponse(TicketType ticketType);
+  UpdateTicketTypeResponse toUpdateResponse(TicketType ticketType);
 }

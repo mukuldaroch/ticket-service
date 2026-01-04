@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateTicketResponseDto {
+public class CreateTicketResponse{
 
   private UUID ticketId;
   private UUID userId;

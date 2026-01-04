@@ -1,7 +1,7 @@
 package com.daroch.ticket.controllers;
 
-import com.daroch.ticket.dtos.ticket.request.CreateTicketRequestDto;
-import com.daroch.ticket.dtos.ticket.response.CreateTicketResponseDto;
+import com.daroch.ticket.dtos.ticket.request.CreateTicketRequest;
+import com.daroch.ticket.dtos.ticket.response.CreateTicketResponse;
 import com.daroch.ticket.mappers.TicketMapper;
 import com.daroch.ticket.mappers.TicketTypeMapper;
 import com.daroch.ticket.services.TicketCommandService;
@@ -33,21 +33,20 @@ public class TicketController {
   /**
    * POST /events Creates a new event for the authenticated organizer.
    *
-   * @param createTicketRequestDto incoming event creation payload
+   * @param createTicketRequest incoming event creation payload
    * @return 201 Created with event details
    */
   @PostMapping()
-  public ResponseEntity<CreateTicketResponseDto> createTicket(
+  public ResponseEntity<CreateTicketResponse> createTicket(
       @AuthenticationPrincipal Jwt jwt,
-      @Valid @RequestBody CreateTicketRequestDto createTicketRequestDto) {
+      @Valid @RequestBody CreateTicketRequest createTicketRequest) {
 
     UUID organizerId = UUID.fromString(jwt.getSubject());
 
-    CreateTicketCommand ticketCommand = ticketMapper.toCommand(createTicketRequestDto);
+    CreateTicketCommand ticketCommand = ticketMapper.toCommand(createTicketRequest);
 
-    CreateTicketResponseDto responseDto =
-        ticketCommandService.createTicket(organizerId, ticketCommand);
+    CreateTicketResponse response = ticketCommandService.createTicket(organizerId, ticketCommand);
 
-    return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }
