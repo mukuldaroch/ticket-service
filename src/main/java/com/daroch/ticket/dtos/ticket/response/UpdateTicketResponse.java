@@ -1,7 +1,6 @@
-package com.daroch.ticket.dtos.ticket.request;
+package com.daroch.ticket.dtos.ticket.response;
 
 import com.daroch.ticket.domain.enums.TicketStatusEnum;
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -13,14 +12,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateTicketRequestDto {
+public class UpdateTicketResponse{
 
-  @NotNull(message = "ticketId is required")
   private UUID ticketId;
-
-  @NotNull(message = "userId is required")
   private UUID userId;
-
   private UUID ticketTypeId;
   private TicketStatusEnum ticketStatus;
   private LocalDateTime usedAt;

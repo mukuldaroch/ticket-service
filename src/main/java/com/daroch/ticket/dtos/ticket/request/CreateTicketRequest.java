@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateTicketRequestDto {
+public class CreateTicketRequest{
 
   @NotNull(message = "userId is required")
   private UUID userId;

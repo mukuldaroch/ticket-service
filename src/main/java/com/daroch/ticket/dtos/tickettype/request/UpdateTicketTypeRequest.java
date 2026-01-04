@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateTicketTypeRequestDto {
+public class UpdateTicketTypeRequest{
 
   @NotNull(message = "ticketTypeId is required")
-  private UUID id;
+  private UUID ticketTypeIdid;
 
   @NotBlank(message = "Ticket type name is required")
   private String name;

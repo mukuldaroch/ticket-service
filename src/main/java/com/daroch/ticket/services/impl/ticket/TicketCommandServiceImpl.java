@@ -4,8 +4,8 @@ import com.daroch.ticket.domain.entities.Ticket;
 import com.daroch.ticket.domain.entities.TicketType;
 import com.daroch.ticket.domain.enums.TicketStatusEnum;
 import com.daroch.ticket.domain.enums.TicketTypeStatusEnum;
-import com.daroch.ticket.dtos.ticket.response.CreateTicketResponseDto;
-import com.daroch.ticket.dtos.ticket.response.UpdateTicketResponseDto;
+import com.daroch.ticket.dtos.ticket.response.CreateTicketResponse;
+import com.daroch.ticket.dtos.ticket.response.UpdateTicketResponse;
 import com.daroch.ticket.exceptions.BusinessException;
 import com.daroch.ticket.exceptions.TicketNotFoundException;
 import com.daroch.ticket.exceptions.TicketTypeNotFoundException;
@@ -28,7 +28,7 @@ public class TicketCommandServiceImpl implements TicketCommandService {
   private final TicketMapper ticketMapper;
 
   @Override
-  public CreateTicketResponseDto createTicket(UUID userId, CreateTicketCommand ticketCommand) {
+  public CreateTicketResponse createTicket(UUID userId, CreateTicketCommand ticketCommand) {
 
     TicketType ticketType =
         ticketTypeRepository
@@ -58,7 +58,7 @@ public class TicketCommandServiceImpl implements TicketCommandService {
   }
 
   @Override
-  public UpdateTicketResponseDto updateTicketForOrganizer(
+  public UpdateTicketResponse updateTicketForOrganizer(
       UUID organizerId, UUID eventId, UpdateTicketCommand command) {
     Ticket ticket =
         ticketRepository
