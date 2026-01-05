@@ -2,8 +2,8 @@ package com.daroch.ticket.services.impl.tickettype;
 
 import com.daroch.ticket.domain.entities.TicketType;
 import com.daroch.ticket.domain.enums.TicketTypeStatusEnum;
-import com.daroch.ticket.dtos.tickettype.response.CreateTicketTypeResponse;
-import com.daroch.ticket.dtos.tickettype.response.UpdateTicketTypeResponse;
+import com.daroch.ticket.dto.tickettype.response.CreateTicketTypeResponse;
+import com.daroch.ticket.dto.tickettype.response.UpdateTicketTypeResponse;
 import com.daroch.ticket.exceptions.BusinessException;
 import com.daroch.ticket.exceptions.TicketTypeNotFoundException;
 import com.daroch.ticket.mappers.TicketTypeMapper;
@@ -28,8 +28,7 @@ public class TicketTypeServiceImpl implements TicketTypeService {
   private final TicketTypeMapper ticketTypeMapper;
 
   //  ------------------------------------------------------------- commands
-  public CreateTicketTypeResponse createTicketType(
-      UUID eventId, CreateTicketTypeCommand ticketType) {
+  public CreateTicketTypeResponse createTicketType(CreateTicketTypeCommand ticketType) {
 
     if (ticketType == null) {
       throw new IllegalArgumentException("Ticket types list cannot be empty");

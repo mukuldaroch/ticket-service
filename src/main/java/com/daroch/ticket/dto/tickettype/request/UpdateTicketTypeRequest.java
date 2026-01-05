@@ -1,4 +1,4 @@
-package com.daroch.ticket.dtos.tickettype.request;
+package com.daroch.ticket.dto.tickettype.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

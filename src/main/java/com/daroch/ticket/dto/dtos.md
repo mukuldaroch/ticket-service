@@ -1,4 +1,4 @@
-# package dtos.ticket.request;
+# ticket.dtos.ticket.request
 
 1. **CreateTicketRequest.java**
 
@@ -18,7 +18,7 @@
 | LocalDateTime    | usedAt       |
 | LocalDateTime    | cancelledAt  |
 
-# package dtos.ticket.response;
+# ticket.dtos.ticket.response
 
 1. **CreateTicketResponse.java**
 
@@ -51,7 +51,7 @@
 | LocalDateTime    | usedAt       |
 | LocalDateTime    | cancelledAt  |
 
-# package dtos.tickettype.request;
+# ticket.dtos.tickettype.request
 
 1. **CreateTicketTypeRequest.java**
 
@@ -74,7 +74,7 @@
 | String  | description    |
 | Integer | totalAvailable |
 
-# package dtos.tickettype.response;
+# ticket.dtos.tickettype.response
 
 1. **CreateTicketTypeResponse.java**
 

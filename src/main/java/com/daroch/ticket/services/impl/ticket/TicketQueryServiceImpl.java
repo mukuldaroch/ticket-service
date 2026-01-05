@@ -1,6 +1,6 @@
 package com.daroch.ticket.services.impl.ticket;
 
-import com.daroch.ticket.dtos.ticket.response.GetTicketResponse;
+import com.daroch.ticket.dto.ticket.response.GetTicketResponse;
 import com.daroch.ticket.services.TicketQueryService;
 import java.util.Optional;
 import java.util.UUID;

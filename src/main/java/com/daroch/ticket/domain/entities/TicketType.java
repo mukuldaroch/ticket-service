@@ -44,7 +44,7 @@ public class TicketType {
   @Column(name = "description", nullable = false)
   private String description;
 
-  @Column(name = "total_avalaible", nullable = false)
+  @Column(name = "total_available", nullable = false)
   private Integer totalAvailable;
 
   @Column(name = "status", nullable = false)
@@ -63,7 +63,7 @@ public class TicketType {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof TicketType)) return false;
-    return ticketTypeId!= null && ticketTypeId.equals(((TicketType) o).ticketTypeId);
+    return ticketTypeId != null && ticketTypeId.equals(((TicketType) o).ticketTypeId);
   }
 
   @Override

@@ -1,6 +1,6 @@
 package com.daroch.ticket.services;
 
-import com.daroch.ticket.dtos.ticket.response.GetTicketResponse;
+import com.daroch.ticket.dto.ticket.response.GetTicketResponse;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;

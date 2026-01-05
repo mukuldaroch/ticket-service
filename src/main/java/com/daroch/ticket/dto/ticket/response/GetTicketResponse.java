@@ -1,4 +1,4 @@
-package com.daroch.ticket.dtos.ticket.response;
+package com.daroch.ticket.dto.ticket.response;
 
 import com.daroch.ticket.domain.enums.TicketStatusEnum;
 import java.util.UUID;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateTicketResponse{
+public class GetTicketResponse{
 
   private UUID ticketId;
   private UUID userId;

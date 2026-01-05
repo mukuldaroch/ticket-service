@@ -1,4 +1,4 @@
-package com.daroch.ticket.dtos.ticket.request;
+package com.daroch.ticket.dto.ticket.request;
 
 import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateTicketRequest{
+public class CreateTicketRequest {
 
   @NotNull(message = "userId is required")
   private UUID userId;

@@ -1,4 +1,4 @@
-package com.daroch.ticket.dtos.ticket.response;
+package com.daroch.ticket.dto.ticket.response;
 
 import com.daroch.ticket.domain.enums.TicketStatusEnum;
 import java.time.LocalDateTime;

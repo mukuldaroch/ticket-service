@@ -4,10 +4,9 @@ import com.daroch.ticket.domain.entities.Ticket;
 import com.daroch.ticket.domain.entities.TicketType;
 import com.daroch.ticket.domain.enums.TicketStatusEnum;
 import com.daroch.ticket.domain.enums.TicketTypeStatusEnum;
-import com.daroch.ticket.dtos.ticket.response.CreateTicketResponse;
-import com.daroch.ticket.dtos.ticket.response.UpdateTicketResponse;
+import com.daroch.ticket.dto.ticket.response.CreateTicketResponse;
+import com.daroch.ticket.dto.ticket.response.UpdateTicketResponse;
 import com.daroch.ticket.exceptions.BusinessException;
-import com.daroch.ticket.exceptions.TicketNotFoundException;
 import com.daroch.ticket.exceptions.TicketTypeNotFoundException;
 import com.daroch.ticket.mappers.TicketMapper;
 import com.daroch.ticket.repositories.TicketRepository;
@@ -43,8 +42,6 @@ public class TicketCommandServiceImpl implements TicketCommandService {
       throw new BusinessException("Tickets sold out");
     }
 
-    // ticketType.decrementAvailability();
-
     Ticket ticketToCreate = new Ticket();
 
     ticketToCreate.setOrganizerId(userId);
@@ -60,56 +57,63 @@ public class TicketCommandServiceImpl implements TicketCommandService {
   @Override
   public UpdateTicketResponse updateTicketForOrganizer(
       UUID organizerId, UUID eventId, UpdateTicketCommand command) {
-    Ticket ticket =
-        ticketRepository
-            .findById(command.getTicketId())
-            .orElseThrow(
-                () ->
-                    new TicketNotFoundException(
-                        "TicketType not found for ID" + command.getTicketId()));
-
-    if (!ticket.getEventId().equals(eventId)) {
-      throw new BusinessException("Ticket type does not belong to this event");
-    }
-    if (!ticket.getOrganizerId().equals(organizerId)) {
-      throw new BusinessException("organizer does not belong to this event");
-    }
-
-    // private LocalDateTime usedAt;
-    // private LocalDateTime cancelledAt;
-    if (command.getTicketStatus() != null) {
-      ticket.setTicketStatus(command.getTicketStatus());
-    }
-
-    if (command.getUsedAt() != null) {
-      ticket.setUsedAt(command.getUsedAt());
-    }
-
-    if (command.getCancelledAt() != null) {
-      ticket.setCancelledAt(command.getCancelledAt());
-    }
-
-    Ticket update = ticketRepository.save(ticket);
-
-    return ticketMapper.toUpdateResponse(update);
+    // Ticket ticket =
+    //     ticketRepository
+    //         .findById(command.getTicketId())
+    //         .orElseThrow(
+    //             () ->
+    //                 new TicketNotFoundException(
+    //                     "TicketType not found for ID" +
+    //                     command.getTicketId()));
+    //
+    // if (!ticket.getEventId().equals(eventId)) {
+    //   throw new BusinessException("Ticket type does not belong to this
+    //   event");
+    // }
+    // if (!ticket.getOrganizerId().equals(organizerId)) {
+    //   throw new BusinessException("organizer does not belong to this
+    //   event");
+    // }
+    //
+    // // private LocalDateTime usedAt;
+    // // private LocalDateTime cancelledAt;
+    // if (command.getTicketStatus() != null) {
+    //   ticket.setTicketStatus(command.getTicketStatus());
+    // }
+    //
+    // if (command.getUsedAt() != null) {
+    //   ticket.setUsedAt(command.getUsedAt());
+    // }
+    //
+    // if (command.getCancelledAt() != null) {
+    //   ticket.setCancelledAt(command.getCancelledAt());
+    // }
+    //
+    // Ticket update = ticketRepository.save(ticket);
+    //
+    // return ticketMapper.toUpdateResponse(update);
+    return null;
   }
 
   @Override
   public void deleteTicketForOrganizer(UUID organizerId, UUID eventId, UUID ticketId) {
-
-    Ticket ticket =
-        ticketRepository
-            .findById(ticketId)
-            .orElseThrow(
-                () -> new TicketNotFoundException("TicketType not found for ID" + ticketId));
-
-    if (!ticket.getEventId().equals(eventId)) {
-      throw new BusinessException("Ticket type does not belong to this event");
-    }
-    if (!ticket.getOrganizerId().equals(organizerId)) {
-      throw new BusinessException("organizer does not belong to this event");
-    }
-
-    ticketRepository.delete(ticket);
+    //
+    // Ticket ticket =
+    //     ticketRepository
+    //         .findById(ticketId)
+    //         .orElseThrow(
+    //             () -> new TicketNotFoundException("TicketType not found
+    //             for ID" + ticketId));
+    //
+    // if (!ticket.getEventId().equals(eventId)) {
+    //   throw new BusinessException("Ticket type does not belong to this
+    //   event");
+    // }
+    // if (!ticket.getOrganizerId().equals(organizerId)) {
+    //   throw new BusinessException("organizer does not belong to this
+    //   event");
+    // }
+    //
+    // ticketRepository.delete(ticket);
   }
 }

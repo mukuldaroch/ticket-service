@@ -1,7 +1,7 @@
 package com.daroch.ticket.controllers;
 
-import com.daroch.ticket.dtos.ticket.request.CreateTicketRequest;
-import com.daroch.ticket.dtos.ticket.response.CreateTicketResponse;
+import com.daroch.ticket.dto.ticket.request.CreateTicketRequest;
+import com.daroch.ticket.dto.ticket.response.CreateTicketResponse;
 import com.daroch.ticket.mappers.TicketMapper;
 import com.daroch.ticket.mappers.TicketTypeMapper;
 import com.daroch.ticket.services.TicketCommandService;
@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +28,13 @@ public class TicketController {
   private final TicketMapper ticketMapper;
   private final TicketQueryService ticketQueryService;
   private final TicketCommandService ticketCommandService;
-
   private final TicketTypeMapper ticketTypeMapper;
+
+  @GetMapping
+  public ResponseEntity<String> createTicket() {
+    System.out.println("TICKET TYPE CONTROLLER HIT");
+    return ResponseEntity.ok("TicketTypeController is alive and receiving requests");
+  }
 
   /**
    * POST /events Creates a new event for the authenticated organizer.

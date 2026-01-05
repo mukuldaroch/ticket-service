@@ -1,6 +1,6 @@
 package com.daroch.ticket.controllers;
 
-import com.daroch.ticket.dtos.ErrorDto;
+import com.daroch.ticket.dto.ErrorDto;
 import com.daroch.ticket.exceptions.BusinessException;
 import com.daroch.ticket.exceptions.TicketNotFoundException;
 import com.daroch.ticket.exceptions.TicketTypeNotFoundException;

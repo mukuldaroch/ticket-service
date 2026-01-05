@@ -1,11 +1,11 @@
 package com.daroch.ticket.mappers;
 
 import com.daroch.ticket.domain.entities.TicketType;
-import com.daroch.ticket.dtos.tickettype.request.CreateTicketTypeRequest;
-import com.daroch.ticket.dtos.tickettype.request.UpdateTicketTypeRequest;
-import com.daroch.ticket.dtos.tickettype.response.CreateTicketTypeResponse;
-import com.daroch.ticket.dtos.tickettype.response.GetEventTicketTypesResponse;
-import com.daroch.ticket.dtos.tickettype.response.UpdateTicketTypeResponse;
+import com.daroch.ticket.dto.tickettype.request.CreateTicketTypeRequest;
+import com.daroch.ticket.dto.tickettype.request.UpdateTicketTypeRequest;
+import com.daroch.ticket.dto.tickettype.response.CreateTicketTypeResponse;
+import com.daroch.ticket.dto.tickettype.response.GetEventTicketTypesResponse;
+import com.daroch.ticket.dto.tickettype.response.UpdateTicketTypeResponse;
 import com.daroch.ticket.services.commands.tickettype.CreateTicketTypeCommand;
 import com.daroch.ticket.services.commands.tickettype.UpdateTicketTypeCommand;
 import org.mapstruct.Mapper;

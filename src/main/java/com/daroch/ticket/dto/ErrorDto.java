@@ -1,4 +1,4 @@
-package com.daroch.ticket.dtos;
+package com.daroch.ticket.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

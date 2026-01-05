@@ -1,4 +1,4 @@
-package com.daroch.ticket.dtos.tickettype.request;
+package com.daroch.ticket.dto.tickettype.request;
 
 import com.daroch.ticket.domain.enums.TicketTypeStatusEnum;
 import jakarta.validation.constraints.NotBlank;
@@ -6,17 +6,15 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateTicketTypeRequest{
+public class CreateTicketTypeRequest {
 
   @NotNull(message = "eventId is required")
   private UUID eventId;

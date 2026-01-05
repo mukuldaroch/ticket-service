@@ -1,4 +1,4 @@
-package com.daroch.ticket.dtos.ticket.request;
+package com.daroch.ticket.dto.ticket.request;
 
 import com.daroch.ticket.domain.enums.TicketStatusEnum;
 import jakarta.validation.constraints.NotNull;

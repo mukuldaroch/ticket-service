@@ -1,7 +1,7 @@
 package com.daroch.ticket.services;
 
-import com.daroch.ticket.dtos.ticket.response.CreateTicketResponse;
-import com.daroch.ticket.dtos.ticket.response.UpdateTicketResponse;
+import com.daroch.ticket.dto.ticket.response.CreateTicketResponse;
+import com.daroch.ticket.dto.ticket.response.UpdateTicketResponse;
 import com.daroch.ticket.services.commands.ticket.CreateTicketCommand;
 import com.daroch.ticket.services.commands.ticket.UpdateTicketCommand;
 import java.util.UUID;
