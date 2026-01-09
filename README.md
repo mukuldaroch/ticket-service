@@ -33,20 +33,21 @@ Key entities:
 
 Ticket-Types
 
-| Method    | Endpoint                                          | Description                        |
-| --------- | ------------------------------------------------- | ---------------------------------- |
-| **GET**   | `/event/{event_id}/ticket-types`                  | List all ticket types for an event |
-| **GET**   | `/event/{event_id}/ticket-types/{ticket_type_id}` | Retrieve ticket type details       |
-| **PATCH** | `/event/{event_id}/ticket-types/{ticket_type_id}` | Update ticket type (partial)       |
+| Method     | Endpoint                         | Description                        |
+| ---------- | -------------------------------- | ---------------------------------- |
+| **GET**    | `/ticket-types`                  | List all ticket types for an event |
+| **GET**    | `/ticket-types/{ticket_type_id}` | Retrieve ticket type details       |
+| **PATCH**  | `/ticket-types/{ticket_type_id}` | Update ticket type                 |
+| **DELETE** | `/ticket-types/{ticket_type_id}` | Delete ticket type                 |
 
 Tickets
 
-| Method     | Endpoint                               | Description                   |
-| ---------- | -------------------------------------- | ----------------------------- |
-| **GET**    | `/event/{event_id}/tickets`            | List all tickets for an event |
-| **GET**    | `/event/{event_id}/ticket/{ticket_id}` | Retrieve details of a ticket  |
-| **PATCH**  | `/event/{event_id}/ticket`             | Update ticket info (partial)  |
-| **DELETE** | `/event/{event_id}/tickets`            | delete a ticket of a event    |
+| Method     | Endpoint              | Description                  |
+| ---------- | --------------------- | ---------------------------- |
+| **GET**    | `/ticket`             | List all tickets for a event |
+| **GET**    | `/ticket/{ticket_id}` | Retrieve details of a ticket |
+| **PATCH**  | `/ticket{ticket_id}`  | Update ticket info           |
+| **DELETE** | `/ticket{ticket_id}`  | Delete a ticket of a event   |
 
 ---
 
@@ -105,7 +106,7 @@ docker compose up
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Open issues, suggest features, or submit PRs — all contributions welcome.
 Help make Ticket Service the **core of EventManagment ticketing system**.
