@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateTicketTypeRequest {
 
-  @NotNull(message = "ticketTypeId is required")
-  private UUID ticketTypeId;
-
   @NotNull(message = "eventId is required")
   private UUID eventId;
 

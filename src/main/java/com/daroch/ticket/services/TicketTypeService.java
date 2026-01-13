@@ -10,23 +10,24 @@ import java.util.UUID;
 
 public interface TicketTypeService {
   // single create
-  CreateTicketTypeResponse createTicketType(CreateTicketTypeCommand ticketType);
+  CreateTicketTypeResponse createTicketType(CreateTicketTypeCommand cmd);
 
   // bulk create
-  List<CreateTicketTypeResponse> createTicketTypes(
-      UUID eventId, List<CreateTicketTypeCommand> ticketTypes);
+  List<CreateTicketTypeResponse> createTicketTypes(List<CreateTicketTypeCommand> cmds);
 
   // single update
-  UpdateTicketTypeResponse updateTicketType(UUID eventId, UpdateTicketTypeCommand command);
+  UpdateTicketTypeResponse updateTicketType(UUID ticketTypeId, UpdateTicketTypeCommand cmd);
 
   // bulk update
   List<UpdateTicketTypeResponse> updateTicketTypes(
-      UUID eventId, List<UpdateTicketTypeCommand> ticketTypeCommands);
+      List<UpdateTicketTypeCommand> cmds);
 
   // bulk delete
-  void deleteTicketTypes(UUID eventId, List<UUID> ticketTypeIds);
+  void deleteTicketType(UUID ticketTypeId);
 
   // queries
+  TicketType getTicketType(UUID ticketTypeId);
+
   List<TicketType> getTicketTypesForEvent(UUID eventId);
 
   List<TicketType> getPublishedTicketTypesForEvent(UUID eventId);

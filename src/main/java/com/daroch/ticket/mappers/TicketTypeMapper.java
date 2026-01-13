@@ -4,7 +4,7 @@ import com.daroch.ticket.domain.entities.TicketType;
 import com.daroch.ticket.dto.tickettype.request.CreateTicketTypeRequest;
 import com.daroch.ticket.dto.tickettype.request.UpdateTicketTypeRequest;
 import com.daroch.ticket.dto.tickettype.response.CreateTicketTypeResponse;
-import com.daroch.ticket.dto.tickettype.response.TicketTypesResponse;
+import com.daroch.ticket.dto.tickettype.response.TicketTypeResponse;
 import com.daroch.ticket.dto.tickettype.response.UpdateTicketTypeResponse;
 import com.daroch.ticket.services.commands.tickettype.CreateTicketTypeCommand;
 import com.daroch.ticket.services.commands.tickettype.UpdateTicketTypeCommand;
@@ -23,7 +23,7 @@ public interface TicketTypeMapper {
 
   CreateTicketTypeResponse toCreateResponse(TicketType ticketType);
 
-  TicketTypesResponse toResponse(TicketType ticketType);
+  TicketTypeResponse toResponse(TicketType ticketType);
 
   UpdateTicketTypeResponse toUpdateResponse(TicketType ticketType);
 }

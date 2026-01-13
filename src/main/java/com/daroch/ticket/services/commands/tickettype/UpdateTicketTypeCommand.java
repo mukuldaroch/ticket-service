@@ -15,7 +15,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateTicketTypeCommand {
 
-  private UUID ticketTypeId;
   private UUID eventId;
   private String name;
   private Double price;
