@@ -30,11 +30,11 @@ public class Ticket {
   @Column(name = "ticket_id", nullable = false, updatable = false)
   private UUID ticketId;
 
+  @Column(name = "user_id", nullable = false, updatable = false)
+  private UUID userId;
+
   @Column(name = "event_id", nullable = false, updatable = false)
   private UUID eventId;
-
-  @Column(name = "user_id", nullable = false, updatable = false)
-  private UUID OrganizerId;
 
   @Column(name = "ticket_type_id", nullable = false)
   private UUID ticketTypeId;
@@ -47,17 +47,17 @@ public class Ticket {
   private Double priceAtPurchase;
 
   @Column(name = "used_at", updatable = false)
-  private LocalDateTime usedAt;
+  private LocalDateTime UsedAt;
 
   @Column(name = "cancelled_at", updatable = false)
-  private LocalDateTime cancelledAt;
+  private LocalDateTime CancelledAt;
 
   @CreatedDate
-  @Column(name = "created", updatable = false, nullable = false)
+  @Column(name = "created_at", updatable = false, nullable = false)
   private LocalDateTime createdAt;
 
   @LastModifiedDate
-  @Column(name = "updated", nullable = false)
+  @Column(name = "updated_at", nullable = false)
   private LocalDateTime updatedAt;
 
   @Override

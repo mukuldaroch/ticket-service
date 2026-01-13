@@ -33,6 +33,7 @@ Key entities:
 
 Ticket-Types
 
+
 | Method     | Endpoint                         | Description                        |
 | ---------- | -------------------------------- | ---------------------------------- |
 | **GET**    | `/ticket-types`                  | List all ticket types for an event |
@@ -51,7 +52,7 @@ Tickets
 
 ---
 
-## 🧩 Tech Stack
+## Tech Stack
 
 - **Backend:** Spring Boot (Java 17+)
 - **Build Tool:** Gradle

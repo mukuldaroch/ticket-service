@@ -12,5 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CreateTicketCommand {
   private UUID userId;
+  private UUID eventId;
   private UUID ticketTypeId;
 }

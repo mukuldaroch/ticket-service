@@ -1,24 +1,23 @@
-package com.daroch.ticket.services.commands.tickettype;
-
-import java.util.UUID;
+package com.daroch.ticket.dto.tickettype.request;
 
 import com.daroch.ticket.domain.enums.TicketTypeStatusEnum;
-
+import jakarta.validation.constraints.NotNull;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateTicketTypeCommand {
+public class UpdateTicketTypeRequest {
 
+  @NotNull(message = "eventId is required")
   private UUID eventId;
+
   private String name;
   private Double price;
   private String description;
-  private TicketTypeStatusEnum status;
   private Integer totalAvailable;
+  private TicketTypeStatusEnum ticketTypeStatus;
 }

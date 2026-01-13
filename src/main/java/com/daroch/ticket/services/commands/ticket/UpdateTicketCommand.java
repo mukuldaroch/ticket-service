@@ -16,9 +16,10 @@ public class UpdateTicketCommand {
 
   private UUID ticketId;
   private UUID eventId;
-  private UUID organizerId;
   private UUID ticketTypeId;
+
   private TicketStatusEnum ticketStatus;
+
   private LocalDateTime usedAt;
   private LocalDateTime cancelledAt;
 }

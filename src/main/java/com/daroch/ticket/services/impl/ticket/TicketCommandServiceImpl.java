@@ -4,8 +4,8 @@ import com.daroch.ticket.domain.entities.Ticket;
 import com.daroch.ticket.domain.entities.TicketType;
 import com.daroch.ticket.domain.enums.TicketStatusEnum;
 import com.daroch.ticket.domain.enums.TicketTypeStatusEnum;
-import com.daroch.ticket.dtos.ticket.response.CreateTicketResponse;
-import com.daroch.ticket.dtos.ticket.response.UpdateTicketResponse;
+import com.daroch.ticket.dto.ticket.response.CreateTicketResponse;
+import com.daroch.ticket.dto.ticket.response.UpdateTicketResponse;
 import com.daroch.ticket.exceptions.BusinessException;
 import com.daroch.ticket.exceptions.TicketNotFoundException;
 import com.daroch.ticket.exceptions.TicketTypeNotFoundException;
@@ -28,14 +28,14 @@ public class TicketCommandServiceImpl implements TicketCommandService {
   private final TicketMapper ticketMapper;
 
   @Override
-  public CreateTicketResponse createTicket(UUID userId, CreateTicketCommand ticketCommand) {
+  public CreateTicketResponse createTicket(UUID userId, CreateTicketCommand cmd) {
 
     TicketType ticketType =
         ticketTypeRepository
-            .findById(ticketCommand.getTicketTypeId())
+            .findById(cmd.getTicketTypeId())
             .orElseThrow(() -> new TicketTypeNotFoundException("Ticket type not found"));
 
-    if (ticketType.getStatus() != TicketTypeStatusEnum.PUBLISHED) {
+    if (ticketType.getTicketTypeStatus() != TicketTypeStatusEnum.PUBLISHED) {
       throw new BusinessException("Ticket type not active");
     }
 
@@ -43,50 +43,45 @@ public class TicketCommandServiceImpl implements TicketCommandService {
       throw new BusinessException("Tickets sold out");
     }
 
-    // ticketType.decrementAvailability();
+    Ticket ticket = new Ticket();
 
-    Ticket ticketToCreate = new Ticket();
+    ticket.setUserId(userId);
+    ticket.setTicketTypeId(ticketType.getTicketTypeId());
+    ticket.setTicketStatus(TicketStatusEnum.CREATED);
+    ticket.setPriceAtPurchase(ticketType.getPrice());
 
-    ticketToCreate.setOrganizerId(userId);
-    ticketToCreate.setTicketTypeId(ticketType.getTicketTypeId());
-    ticketToCreate.setTicketStatus(TicketStatusEnum.CREATED);
-    ticketToCreate.setPriceAtPurchase(ticketType.getPrice());
+    ticketRepository.save(ticket);
 
-    ticketRepository.save(ticketToCreate);
-
-    return ticketMapper.toCreateResponse(ticketToCreate);
+    return ticketMapper.toCreateResponse(ticket);
   }
 
   @Override
-  public UpdateTicketResponse updateTicketForOrganizer(
-      UUID organizerId, UUID eventId, UpdateTicketCommand command) {
+  public UpdateTicketResponse updateTicketForUser(
+      UUID userId, UUID eventId, UpdateTicketCommand cmd) {
     Ticket ticket =
         ticketRepository
-            .findById(command.getTicketId())
+            .findById(cmd.getTicketId())
             .orElseThrow(
                 () ->
-                    new TicketNotFoundException(
-                        "TicketType not found for ID" + command.getTicketId()));
+                    new TicketNotFoundException("TicketType not found for ID" + cmd.getTicketId()));
 
     if (!ticket.getEventId().equals(eventId)) {
       throw new BusinessException("Ticket type does not belong to this event");
     }
-    if (!ticket.getOrganizerId().equals(organizerId)) {
+    if (!ticket.getUserId().equals(userId)) {
       throw new BusinessException("organizer does not belong to this event");
     }
 
-    // private LocalDateTime usedAt;
-    // private LocalDateTime cancelledAt;
-    if (command.getTicketStatus() != null) {
-      ticket.setTicketStatus(command.getTicketStatus());
+    if (cmd.getTicketStatus() != null) {
+      ticket.setTicketStatus(cmd.getTicketStatus());
     }
 
-    if (command.getUsedAt() != null) {
-      ticket.setUsedAt(command.getUsedAt());
+    if (cmd.getUsedAt() != null) {
+      ticket.setUsedAt(cmd.getUsedAt());
     }
 
-    if (command.getCancelledAt() != null) {
-      ticket.setCancelledAt(command.getCancelledAt());
+    if (cmd.getCancelledAt() != null) {
+      ticket.setCancelledAt(cmd.getCancelledAt());
     }
 
     Ticket update = ticketRepository.save(ticket);
@@ -95,7 +90,7 @@ public class TicketCommandServiceImpl implements TicketCommandService {
   }
 
   @Override
-  public void deleteTicketForOrganizer(UUID organizerId, UUID eventId, UUID ticketId) {
+  public void deleteTicketForOrganizer(UUID userId, UUID eventId, UUID ticketId) {
 
     Ticket ticket =
         ticketRepository
@@ -106,7 +101,7 @@ public class TicketCommandServiceImpl implements TicketCommandService {
     if (!ticket.getEventId().equals(eventId)) {
       throw new BusinessException("Ticket type does not belong to this event");
     }
-    if (!ticket.getOrganizerId().equals(organizerId)) {
+    if (!ticket.getUserId().equals(userId)) {
       throw new BusinessException("organizer does not belong to this event");
     }
 

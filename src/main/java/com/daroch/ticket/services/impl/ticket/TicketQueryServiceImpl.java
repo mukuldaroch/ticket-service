@@ -1,6 +1,8 @@
 package com.daroch.ticket.services.impl.ticket;
 
-import com.daroch.ticket.dtos.ticket.response.GetTicketResponse;
+import com.daroch.ticket.dto.ticket.response.TicketResponse;
+import com.daroch.ticket.mappers.TicketMapper;
+import com.daroch.ticket.repositories.TicketRepository;
 import com.daroch.ticket.services.TicketQueryService;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,18 +15,21 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TicketQueryServiceImpl implements TicketQueryService {
 
+  private final TicketRepository ticketRepository;
+  private final TicketMapper ticketMapper;
+
   @Override
-  public Optional<GetTicketResponse> getTicketForUser(UUID userId, UUID ticketId) {
+  public Optional<TicketResponse> getTicketForUser(UUID userId, UUID ticketId) {
     return null;
   }
 
   @Override
-  public Page<GetTicketResponse> listUpcomingTicketsForUser(UUID userId, Pageable pageable) {
+  public Page<TicketResponse> listUpcomingTicketsForUser(UUID userId, Pageable pageable) {
     return null;
   }
 
   @Override
-  public Page<GetTicketResponse> listExpiredTicketsForUser(UUID userId, Pageable pageable) {
+  public Page<TicketResponse> listExpiredTicketsForUser(UUID userId, Pageable pageable) {
     return null;
   }
 }

@@ -29,10 +29,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class TicketType {
   @Id
+  @Column(name = "ticket_type_id", nullable = false, updatable = false)
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID ticketTypeId;
 
-  @Column(name = "event_id", nullable = false)
+  @Column(name = "event_id", nullable = false, updatable = false)
   private UUID eventId;
 
   @Column(name = "name", nullable = false)
@@ -44,26 +45,26 @@ public class TicketType {
   @Column(name = "description", nullable = false)
   private String description;
 
-  @Column(name = "total_avalaible", nullable = false)
+  @Column(name = "total_available", nullable = false)
   private Integer totalAvailable;
 
-  @Column(name = "status", nullable = false)
+  @Column(name = "ticket_type_status", nullable = false)
   @Enumerated(EnumType.STRING)
-  private TicketTypeStatusEnum status;
+  private TicketTypeStatusEnum ticketTypeStatus;
 
   @CreatedDate
-  @Column(name = "created", updatable = false, nullable = false)
+  @Column(name = "created_at", updatable = false, nullable = false)
   private LocalDateTime createdAt;
 
   @LastModifiedDate
-  @Column(name = "updated", nullable = false)
+  @Column(name = "updated_at", nullable = false)
   private LocalDateTime updatedAt;
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof TicketType)) return false;
-    return ticketTypeId!= null && ticketTypeId.equals(((TicketType) o).ticketTypeId);
+    return ticketTypeId != null && ticketTypeId.equals(((TicketType) o).ticketTypeId);
   }
 
   @Override

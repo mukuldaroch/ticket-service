@@ -1,21 +1,26 @@
-package com.daroch.ticket.dtos.ticket.response;
+package com.daroch.ticket.dto.ticket.response;
 
 import com.daroch.ticket.domain.enums.TicketStatusEnum;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateTicketResponse{
+public class TicketResponse {
 
   private UUID ticketId;
   private UUID userId;
+  private UUID eventId;
   private UUID ticketTypeId;
   private TicketStatusEnum ticketStatus;
   private Double priceAtPurchase;
+
+  private LocalDateTime UsedAt;
+  private LocalDateTime CancelledAt;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 }

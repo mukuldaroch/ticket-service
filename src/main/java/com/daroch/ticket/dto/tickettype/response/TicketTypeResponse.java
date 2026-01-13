@@ -1,4 +1,4 @@
-package com.daroch.ticket.dtos.tickettype.response;
+package com.daroch.ticket.dto.tickettype.response;
 
 import com.daroch.ticket.domain.enums.TicketTypeStatusEnum;
 import java.time.LocalDateTime;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetEventTicketTypesResponse{
+public class TicketTypeResponse {
 
   private UUID ticketTypeId;
   private UUID eventId;
