@@ -33,12 +33,13 @@ Key entities:
 
 Ticket-Types
 
-| Method     | Endpoint                                    | Description                        |
-| ---------- | ------------------------------------------- | ---------------------------------- |
-| **GET**    | `/ticket-types?{event-id}`                  | List all ticket types for an event |
-| **GET**    | `/ticket-types/{ticket_type_id}`            | Retrieve ticket type details       |
-| **PATCH**  | `/ticket-types/{ticket-type-id}?{event-id}` | Update ticket type                 |
-| **DELETE** | `/ticket-types/{ticket_type_id}`            | Delete ticket type                 |
+
+| Method     | Endpoint                         | Description                        |
+| ---------- | -------------------------------- | ---------------------------------- |
+| **GET**    | `/ticket-types`                  | List all ticket types for an event |
+| **GET**    | `/ticket-types/{ticket_type_id}` | Retrieve ticket type details       |
+| **PATCH**  | `/ticket-types/{ticket_type_id}` | Update ticket type                 |
+| **DELETE** | `/ticket-types/{ticket_type_id}` | Delete ticket type                 |
 
 Tickets
 
@@ -106,7 +107,7 @@ docker compose up
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Open issues, suggest features, or submit PRs — all contributions welcome.
 Help make Ticket Service the **core of EventManagment ticketing system**.
