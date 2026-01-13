@@ -14,9 +14,9 @@ import org.mapstruct.ReportingPolicy;
 public interface TicketMapper {
 
   // -------- Incoming (API → Application) --------
-  CreateTicketCommand toCommand(CreateTicketRequest dto);
+  CreateTicketCommand toCreateCommand(CreateTicketRequest dto);
 
-  UpdateTicketCommand toCommand(UpdateTicketRequest dto);
+  UpdateTicketCommand toUpdateCommand(UpdateTicketRequest dto);
 
   // -------- Outgoing (Domain → API) --------
   CreateTicketResponse toCreateResponse(Ticket ticket);

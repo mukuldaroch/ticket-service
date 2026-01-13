@@ -3,19 +3,17 @@ package com.daroch.ticket.dto.ticket.request;
 import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateTicketRequest {
 
-  @NotNull(message = "userId is required")
-  private UUID userId;
+  @NotNull(message = "Event Id is required")
+  private UUID eventId;
 
-  @NotNull(message = "ticketTypeId is required")
+  @NotNull(message = "TicketType Id is required")
   private UUID ticketTypeId;
 }

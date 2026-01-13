@@ -1,14 +1,12 @@
 # server.name=mukul
-server:
-  port: 8084
 spring:
   #
   application:
-    name: ticket-service
+    name: tickets
   #
   datasource:
+    url: jdbc:postgresql://ticket-database:5432/ticket-service
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5434/ticketdb
     username: postgres
     password: daroch
   #
@@ -19,9 +17,3 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-  #
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://auth.local:8080/realms/event-service

@@ -8,10 +8,10 @@ import java.util.UUID;
 
 public interface TicketCommandService {
 
-  CreateTicketResponse createTicket(UUID organizerId, CreateTicketCommand ticket);
+  CreateTicketResponse createTicket(UUID userId, CreateTicketCommand ticket);
 
-  UpdateTicketResponse updateTicketForOrganizer(
-      UUID organizerId, UUID eventId, UpdateTicketCommand ticket);
+  UpdateTicketResponse updateTicketForUser(
+      UUID userId, UUID eventId, UpdateTicketCommand ticket);
 
-  void deleteTicketForOrganizer(UUID organizerId, UUID eventId, UUID ticketId);
+  void deleteTicketForOrganizer(UUID userId, UUID eventId, UUID ticketId);
 }

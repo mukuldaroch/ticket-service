@@ -6,12 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateTicketTypeRequest {
@@ -32,5 +30,5 @@ public class CreateTicketTypeRequest {
   @PositiveOrZero(message = "Total available must be zero or greater")
   private Integer totalAvailable;
 
-  private TicketTypeStatusEnum status;
+  private TicketTypeStatusEnum ticketTypeStatus;
 }

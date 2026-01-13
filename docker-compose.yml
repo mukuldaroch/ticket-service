@@ -7,21 +7,20 @@ services:
     ports:
       # Map host port 5434 to container port 5432 (PostgreSQL default)
       - "5434:5432"
+    networks:
+      - event-mesh
     restart: always
     environment:
       POSTGRES_USER: postgres # Default PostgreSQL user
       POSTGRES_PASSWORD: daroch # Password for the default user
-      POSTGRES_DB: ticket-service # Default database name
+      POSTGRES_DB: ticketdb # Default database name
     volumes:
       # Persist database data so it’s not lost when container restarts
       - pgdata:/var/lib/postgresql/data
-    # healthcheck:
-    #   test: ["CMD-SHELL", "pg_isready -U postgres"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
-
 volumes:
   pgdata: # Named volume for PostgreSQL
   keycloak-data: # Named volume for Keycloak
     driver: local
+networks:
+  event-mesh:
+    external: true

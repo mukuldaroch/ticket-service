@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/ticket-type")
+@RequestMapping("/ticket-types")
 @RequiredArgsConstructor
 public class TicketTypeController {
 
@@ -26,7 +26,7 @@ public class TicketTypeController {
   public ResponseEntity<CreateTicketTypeResponse> createTicket(
       @Valid @RequestBody CreateTicketTypeRequest ticketTypeRequest) {
 
-    CreateTicketTypeCommand ticketTypeCommand = ticketTypeMapper.toCommand(ticketTypeRequest);
+    CreateTicketTypeCommand ticketTypeCommand = ticketTypeMapper.toCreateCommand(ticketTypeRequest);
 
     CreateTicketTypeResponse response = ticketTypeService.createTicketType(ticketTypeCommand);
 

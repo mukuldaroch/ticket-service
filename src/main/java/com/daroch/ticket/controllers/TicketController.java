@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/tickets")
+@RequestMapping(path = "/ticket")
 @RequiredArgsConstructor
 public class TicketController {
 
@@ -49,7 +49,7 @@ public class TicketController {
 
     UUID organizerId = UUID.fromString(jwt.getSubject());
 
-    CreateTicketCommand ticketCommand = ticketMapper.toCommand(createTicketRequest);
+    CreateTicketCommand ticketCommand = ticketMapper.toCreateCommand(createTicketRequest);
 
     CreateTicketResponse response = ticketCommandService.createTicket(organizerId, ticketCommand);
 

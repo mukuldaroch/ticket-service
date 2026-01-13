@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetEventTicketTypesResponse{
+public class TicketTypesResponse {
 
   private UUID ticketTypeId;
   private UUID eventId;

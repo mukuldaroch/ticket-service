@@ -19,6 +19,5 @@ public class UpdateTicketTypeResponse {
   private String description;
   private Integer totalAvailable;
   private TicketTypeStatusEnum status;
-  private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 }
