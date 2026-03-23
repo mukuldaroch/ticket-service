@@ -8,23 +8,7 @@ import com.daroch.ticket.services.commands.tickettype.UpdateTicketTypeCommand;
 import java.util.List;
 import java.util.UUID;
 
-public interface TicketTypeService {
-  // single create
-  CreateTicketTypeResponse createTicketType(CreateTicketTypeCommand cmd);
-
-  // bulk create
-  List<CreateTicketTypeResponse> createTicketTypes(List<CreateTicketTypeCommand> cmds);
-
-  // single update
-  UpdateTicketTypeResponse updateTicketType(UUID ticketTypeId, UpdateTicketTypeCommand cmd);
-
-  // bulk update
-  List<UpdateTicketTypeResponse> updateTicketTypes(
-      List<UpdateTicketTypeCommand> cmds);
-
-  // bulk delete
-  void deleteTicketType(UUID ticketTypeId);
-
+public interface TicketTypeQueryService {
   // queries
   TicketType getTicketType(UUID ticketTypeId);
 
