@@ -7,10 +7,12 @@ import com.daroch.ticket.dto.tickettype.response.CreateTicketTypeResponse;
 import com.daroch.ticket.dto.tickettype.response.TicketTypeResponse;
 import com.daroch.ticket.dto.tickettype.response.UpdateTicketTypeResponse;
 import com.daroch.ticket.mappers.TicketTypeMapper;
-import com.daroch.ticket.services.TicketTypeService;
+import com.daroch.ticket.services.TicketTypeCommandService;
+import com.daroch.ticket.services.TicketTypeQueryService;
 import com.daroch.ticket.services.commands.tickettype.CreateTicketTypeCommand;
 import com.daroch.ticket.services.commands.tickettype.UpdateTicketTypeCommand;
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -49,7 +52,9 @@ public class TicketTypeController {
   private final TicketTypeMapper ticketTypeMapper;
 
   /** Handles business logic related to ticket type operations. */
-  private final TicketTypeService ticketTypeService;
+  private final TicketTypeQueryService ticketTypeQuery;
+
+  private final TicketTypeCommandService ticketTypeCommand;
 
   /**
    * Creates a new ticket type.
@@ -67,27 +72,45 @@ public class TicketTypeController {
 
     CreateTicketTypeCommand cmd = ticketTypeMapper.toCreateCommand(req);
 
-    CreateTicketTypeResponse response = ticketTypeService.createTicketType(cmd);
+    CreateTicketTypeResponse response = ticketTypeCommand.createTicketType(cmd);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
   /**
-   * Get a new ticket type.
+   * Get a ticket type by its ID.
    *
-   * <p>This endpoint is used by event organizers to define a new ticket category for an event (for
-   * example: "VIP", "Balcony", "Student").
+   * <p>This endpoint retrieves details of a specific ticket type using its unique identifier.
    *
-   * @param req the incoming HTTP request containing ticket type details
-   * @return a {@link ResponseEntity} containing the created ticket type and HTTP status {@code 201
-   *     (CREATED)}
+   * @param ticketTypeId the unique identifier of the ticket type
+   * @return a {@link ResponseEntity} containing the {@link TicketTypeResponse} and HTTP status
+   *     {@code 200 (OK)}
    */
-  @GetMapping(path = "/{eventId}")
-  public ResponseEntity<TicketTypeResponse> getTicketType(@PathVariable UUID eventId) {
-
-    TicketType ticketType = ticketTypeService.getTicketType(eventId);
+  @GetMapping(path = "/{ticketTypeId}")
+  public ResponseEntity<TicketTypeResponse> getTicketType(@PathVariable UUID ticketTypeId) {
+    TicketType ticketType = ticketTypeQuery.getTicketType(ticketTypeId);
 
     return ResponseEntity.ok(ticketTypeMapper.toResponse(ticketType));
+  }
+
+  /**
+   * Get all ticket types for a given event.
+   *
+   * <p>This endpoint retrieves all ticket categories associated with a specific event (for example:
+   * "VIP", "Balcony", "Student").
+   *
+   * @param eventId the unique identifier of the event
+   * @return a {@link ResponseEntity} containing a list of {@link TicketTypeResponse} and HTTP
+   *     status {@code 200 (OK)}
+   */
+  @GetMapping
+  public ResponseEntity<List<TicketTypeResponse>> getTicketTypes(@RequestParam UUID eventId) {
+    List<TicketType> ticketTypes = ticketTypeQuery.getTicketTypesForEvent(eventId);
+
+    List<TicketTypeResponse> responses =
+        ticketTypes.stream().map(ticketTypeMapper::toResponse).toList();
+
+    return ResponseEntity.ok(responses);
   }
 
   /**
@@ -106,7 +129,7 @@ public class TicketTypeController {
 
     UpdateTicketTypeCommand cmd = ticketTypeMapper.toUpdateCommand(req);
 
-    UpdateTicketTypeResponse response = ticketTypeService.updateTicketType(ticketTypeId, cmd);
+    UpdateTicketTypeResponse response = ticketTypeCommand.updateTicketType(ticketTypeId, cmd);
 
     return ResponseEntity.ok(response);
   }
@@ -122,7 +145,7 @@ public class TicketTypeController {
    */
   @DeleteMapping(path = "/{ticketTypeId}")
   public ResponseEntity<?> deleteTicketType(@PathVariable UUID ticketTypeId) {
-    ticketTypeService.deleteTicketType(ticketTypeId);
+    ticketTypeCommand.deleteTicketType(ticketTypeId);
     return ResponseEntity.ok().build();
   }
 }

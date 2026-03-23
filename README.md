@@ -33,22 +33,23 @@ Key entities:
 
 Ticket-Types
 
-
-| Method     | Endpoint                         | Description                        |
-| ---------- | -------------------------------- | ---------------------------------- |
-| **GET**    | `/ticket-types`                  | List all ticket types for an event |
-| **GET**    | `/ticket-types/{ticket_type_id}` | Retrieve ticket type details       |
-| **PATCH**  | `/ticket-types/{ticket_type_id}` | Update ticket type                 |
-| **DELETE** | `/ticket-types/{ticket_type_id}` | Delete ticket type                 |
+| Method     | Endpoint                                    | Description                        |
+| ---------- | ------------------------------------------- | ---------------------------------- |
+| **GET**    | `/ticket-types?eventId={eventId}`           | List all ticket types for an event |
+| **POST**   | `/ticket-types`                             | Create Ticket-Type                 |
+| **GET**    | `/ticket-types/{ticket_type_id}`            | Retrieve ticket type details       |
+| **PATCH**  | `/ticket-types/{ticket-type-id}?{event-id}` | Update ticket type                 |
+| **DELETE** | `/ticket-types/{ticket_type_id}`            | Delete ticket type                 |
 
 Tickets
 
-| Method     | Endpoint              | Description                  |
-| ---------- | --------------------- | ---------------------------- |
-| **GET**    | `/ticket`             | List all tickets for a event |
-| **GET**    | `/ticket/{ticket_id}` | Retrieve details of a ticket |
-| **PATCH**  | `/ticket{ticket_id}`  | Update ticket info           |
-| **DELETE** | `/ticket{ticket_id}`  | Delete a ticket of a event   |
+| Method     | Endpoint                     | Description                  |
+| ---------- | ---------------------------- | ---------------------------- |
+| **GET**    | `/tickets?eventId={eventId}` | List all tickets for a event |
+| **POST**   | `/tickets`                   | Create Ticket                |
+| **GET**    | `/tickets/{ticket_id}`       | Retrieve details of a ticket |
+| **PATCH**  | `/tickets/{ticket_id}`       | Update ticket info           |
+| **DELETE** | `/tickets/{ticket_id}`       | Delete a ticket of a event   |
 
 ---
 
