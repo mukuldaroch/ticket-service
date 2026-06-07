@@ -44,7 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </ul>
  */
 @RestController
-@RequestMapping("/ticket-types")
+@RequestMapping("/ticket-type")
 @RequiredArgsConstructor
 public class TicketTypeController {
 
@@ -105,6 +105,7 @@ public class TicketTypeController {
    */
   @GetMapping
   public ResponseEntity<List<TicketTypeResponse>> getTicketTypes(@RequestParam UUID eventId) {
+
     List<TicketType> ticketTypes = ticketTypeQuery.getTicketTypesForEvent(eventId);
 
     List<TicketTypeResponse> responses =

@@ -3,8 +3,8 @@ package com.daroch.ticket.services.impl.tickettype;
 import com.daroch.ticket.domain.entities.TicketType;
 import com.daroch.ticket.dto.tickettype.response.CreateTicketTypeResponse;
 import com.daroch.ticket.dto.tickettype.response.UpdateTicketTypeResponse;
-import com.daroch.ticket.exceptions.BusinessException;
 import com.daroch.ticket.exceptions.TicketTypeNotFoundException;
+import com.daroch.ticket.exceptions.ValidationException;
 import com.daroch.ticket.mappers.TicketTypeMapper;
 import com.daroch.ticket.repositories.TicketTypeRepository;
 import com.daroch.ticket.services.TicketTypeCommandService;
@@ -110,7 +110,7 @@ public class TicketTypeCommandServiceImpl implements TicketTypeCommandService {
    * @param cmd command object containing updated ticket type fields
    * @return response DTO representing the updated ticket type
    * @throws TicketTypeNotFoundException if no ticket type exists for the given ID
-   * @throws BusinessException if the ticket type does not belong to the specified event
+   * @throws ValidationException if the ticket type does not belong to the specified event
    */
   @Override
   public UpdateTicketTypeResponse updateTicketType(UUID ticketTypeId, UpdateTicketTypeCommand cmd) {
@@ -118,13 +118,11 @@ public class TicketTypeCommandServiceImpl implements TicketTypeCommandService {
     TicketType ticketType =
         ticketTypeRepository
             .findById(ticketTypeId)
-            .orElseThrow(
-                () ->
-                    new TicketTypeNotFoundException("TicketType not found for ID" + ticketTypeId));
+            .orElseThrow(() -> new TicketTypeNotFoundException());
 
     // Validate ticket type belongs to the provided event
     if (!ticketType.getEventId().equals(cmd.getEventId())) {
-      throw new BusinessException("Ticket type does not belong to this event");
+      throw new ValidationException("TicketType does not belongs to this Event Id");
     }
 
     // Apply partial updates
@@ -170,23 +168,20 @@ public class TicketTypeCommandServiceImpl implements TicketTypeCommandService {
    * <p>This method first verifies that the ticket type exists before performing the deletion.
    *
    * @param ticketTypeId identifier of the ticket type to delete
-   * @throws BusinessException if the provided ID is null
+   * @throws ValidationException if the provided ID is null
    * @throws TicketTypeNotFoundException if no ticket type exists with the given ID
    */
   @Override
   public void deleteTicketType(UUID ticketTypeId) {
 
     if (ticketTypeId == null) {
-      throw new BusinessException("No ticket types provided for deletion");
+      throw new ValidationException("Ticket Type Id can not be null");
     }
 
     TicketType ticketType =
         ticketTypeRepository
             .findById(ticketTypeId)
-            .orElseThrow(
-                () ->
-                    new TicketTypeNotFoundException(
-                        "ticket types not found for Id : " + ticketTypeId));
+            .orElseThrow(() -> new TicketTypeNotFoundException());
 
     ticketTypeRepository.delete(ticketType);
   }
