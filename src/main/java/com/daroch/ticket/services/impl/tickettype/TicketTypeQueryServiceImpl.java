@@ -3,6 +3,7 @@ package com.daroch.ticket.services.impl.tickettype;
 import com.daroch.ticket.domain.entities.TicketType;
 import com.daroch.ticket.domain.enums.TicketTypeStatusEnum;
 import com.daroch.ticket.exceptions.TicketTypeNotFoundException;
+import com.daroch.ticket.exceptions.ValidationException;
 import com.daroch.ticket.mappers.TicketTypeMapper;
 import com.daroch.ticket.repositories.TicketTypeRepository;
 import com.daroch.ticket.services.TicketTypeQueryService;
@@ -55,9 +56,7 @@ public class TicketTypeQueryServiceImpl implements TicketTypeQueryService {
   public TicketType getTicketType(UUID ticketTypeId) {
     return ticketTypeRepository
         .findById(ticketTypeId)
-        .orElseThrow(
-            () ->
-                new TicketTypeNotFoundException("ticket types not found for Id : " + ticketTypeId));
+        .orElseThrow(() -> new TicketTypeNotFoundException());
   }
 
   /**
@@ -69,7 +68,16 @@ public class TicketTypeQueryServiceImpl implements TicketTypeQueryService {
   @Override
   @Transactional(readOnly = true)
   public List<TicketType> getTicketTypesForEvent(UUID eventId) {
-    return ticketTypeRepository.findByEventId(eventId);
+    if (eventId.equals(null)) {
+      throw new ValidationException("EventId can not be null");
+    }
+    List<TicketType> ticketTypes = ticketTypeRepository.findByEventId(eventId);
+
+    if (ticketTypes.isEmpty()) {
+      throw new ValidationException("eventId does not exists or dont have any TicketTypes");
+    }
+
+    return ticketTypes;
   }
 
   /**
@@ -83,7 +91,9 @@ public class TicketTypeQueryServiceImpl implements TicketTypeQueryService {
   @Override
   @Transactional(readOnly = true)
   public List<TicketType> getPublishedTicketTypesForEvent(UUID eventId) {
-    return ticketTypeRepository.findByEventIdAndTicketTypeStatus(
-        eventId, TicketTypeStatusEnum.PUBLISHED);
+    List<TicketType> ticketTypes =
+        ticketTypeRepository.findByEventIdAndTicketTypeStatus(
+            eventId, TicketTypeStatusEnum.PUBLISHED);
+    return ticketTypes;
   }
 }

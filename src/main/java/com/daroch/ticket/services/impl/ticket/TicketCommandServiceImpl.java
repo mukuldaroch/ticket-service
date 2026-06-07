@@ -6,9 +6,9 @@ import com.daroch.ticket.domain.enums.TicketStatusEnum;
 import com.daroch.ticket.domain.enums.TicketTypeStatusEnum;
 import com.daroch.ticket.dto.ticket.response.CreateTicketResponse;
 import com.daroch.ticket.dto.ticket.response.UpdateTicketResponse;
-import com.daroch.ticket.exceptions.BusinessException;
 import com.daroch.ticket.exceptions.TicketNotFoundException;
 import com.daroch.ticket.exceptions.TicketTypeNotFoundException;
+import com.daroch.ticket.exceptions.ValidationException;
 import com.daroch.ticket.mappers.TicketMapper;
 import com.daroch.ticket.repositories.TicketRepository;
 import com.daroch.ticket.repositories.TicketTypeRepository;
@@ -33,14 +33,14 @@ public class TicketCommandServiceImpl implements TicketCommandService {
     TicketType ticketType =
         ticketTypeRepository
             .findById(cmd.getTicketTypeId())
-            .orElseThrow(() -> new TicketTypeNotFoundException("Ticket type not found"));
+            .orElseThrow(() -> new TicketTypeNotFoundException());
 
     if (ticketType.getTicketTypeStatus() != TicketTypeStatusEnum.PUBLISHED) {
-      throw new BusinessException("Ticket type not active");
+      throw new ValidationException("TicketType Status is not Published");
     }
 
     if (ticketType.getTotalAvailable() <= 0) {
-      throw new BusinessException("Tickets sold out");
+      throw new ValidationException("Ticket is not available");
     }
 
     Ticket ticket = new Ticket();
@@ -61,15 +61,13 @@ public class TicketCommandServiceImpl implements TicketCommandService {
     Ticket ticket =
         ticketRepository
             .findById(cmd.getTicketId())
-            .orElseThrow(
-                () ->
-                    new TicketNotFoundException("TicketType not found for ID" + cmd.getTicketId()));
+            .orElseThrow(() -> new TicketNotFoundException());
 
     if (!ticket.getEventId().equals(eventId)) {
-      throw new BusinessException("Ticket type does not belong to this event");
+      throw new ValidationException("Ticket does not belong to this eventId");
     }
     if (!ticket.getUserId().equals(userId)) {
-      throw new BusinessException("organizer does not belong to this event");
+      throw new ValidationException("this user does now own this Ticket");
     }
 
     if (cmd.getTicketStatus() != null) {
@@ -93,16 +91,13 @@ public class TicketCommandServiceImpl implements TicketCommandService {
   public void deleteTicketForOrganizer(UUID userId, UUID eventId, UUID ticketId) {
 
     Ticket ticket =
-        ticketRepository
-            .findById(ticketId)
-            .orElseThrow(
-                () -> new TicketNotFoundException("TicketType not found for ID" + ticketId));
+        ticketRepository.findById(ticketId).orElseThrow(() -> new TicketNotFoundException());
 
     if (!ticket.getEventId().equals(eventId)) {
-      throw new BusinessException("Ticket type does not belong to this event");
+      throw new ValidationException("eventId and ticket eventId does not mateches");
     }
     if (!ticket.getUserId().equals(userId)) {
-      throw new BusinessException("organizer does not belong to this event");
+      throw new ValidationException("UserId does not matches userId");
     }
 
     ticketRepository.delete(ticket);

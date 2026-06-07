@@ -1,36 +1,24 @@
 package com.daroch.ticket.controllers;
 
-import com.daroch.ticket.dto.ErrorDto;
+import com.daroch.ticket.dto.ErrorResponse;
 import com.daroch.ticket.exceptions.BusinessException;
-import com.daroch.ticket.exceptions.TicketNotFoundException;
-import com.daroch.ticket.exceptions.TicketTypeNotFoundException;
 import com.daroch.ticket.exceptions.TicketsSoldOutException;
-import com.daroch.ticket.exceptions.UserNotFoundException;
+import com.daroch.ticket.exceptions.ValidationException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
+import java.time.Instant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 // Tells Spring this class will globally handle exceptions for REST controllers
 @Slf4j // Adds a logger named 'log' using Lombok
 public class GlobalExceptionHandler {
-  /**
-   * Handles cases where a TicketNotFoundException cannot be found.
-   *
-   * @param ex the exception indicating the QR code is missing
-   * @return an error response with HTTP 404
-   */
-  @ExceptionHandler(TicketNotFoundException.class)
-  public ResponseEntity<ErrorDto> handleTicketNotFoundException(TicketNotFoundException ex) {
-    log.error("Caught TicketNotFoundException", ex);
-
-    ErrorDto errorDto = new ErrorDto();
-    errorDto.setError("Ticket not found not found");
-
-    return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
-  }
 
   /**
    * Handles situations where all tickets for an event have been sold.
@@ -39,62 +27,152 @@ public class GlobalExceptionHandler {
    * @return an error response with HTTP 400
    */
   @ExceptionHandler(TicketsSoldOutException.class)
-  public ResponseEntity<ErrorDto> handleTicketsSoldOutException(TicketsSoldOutException ex) {
+  public ResponseEntity<ErrorResponse> handleTicketsSoldOutException(
+      TicketsSoldOutException ex, HttpServletRequest request) {
     log.error("Caught TicketsSoldOutException", ex);
 
-    ErrorDto errorDto = new ErrorDto();
-    errorDto.setError("All tickets are sold out");
+    ErrorResponse errorResponse =
+        ErrorResponse.builder()
+            .timestamp(Instant.now())
+            .status(HttpStatus.BAD_REQUEST.value())
+            .errorCode("TICKETS_SOLD_OUT_EXCEPTION")
+            .message("Tickets are sold out")
+            .path(request.getRequestURI())
+            .build();
 
-    return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    return ResponseEntity.badRequest().body(errorResponse);
   }
 
   /**
-   * Handles failures that occur during Business logic fails.
+   * Handles cases where a requested fails to validate.
    *
-   * @param ex the exception indicating QR code generation has failed
-   * @return an error response with HTTP 500
+   * @param ex the exception indicating validation failed
+   * @return an error response with HTTP 404
+   */
+  @ExceptionHandler(ValidationException.class)
+  public ResponseEntity<ErrorResponse> ValidationException(
+      ValidationException ex, HttpServletRequest request) {
+
+    log.error("Caught ValidationException", ex);
+
+    ErrorResponse errorResponse =
+        ErrorResponse.builder()
+            .timestamp(Instant.now())
+            .status(ex.getStatus().value())
+            .errorCode(ex.getErrorCode())
+            .message(ex.getMessage())
+            .path(request.getRequestURI())
+            .build();
+
+    return ResponseEntity.status(ex.getStatus()).body(errorResponse);
+  }
+
+  /**
+   * Handles cases where a requested event does not exist.
+   *
+   * @param ex the exception indicating the event was not found
+   * @return an error response with HTTP 400
    */
   @ExceptionHandler(BusinessException.class)
-  public ResponseEntity<ErrorDto> handleBusinessException(BusinessException ex) {
+  public ResponseEntity<ErrorResponse> handleBusinessException(
+      BusinessException ex, HttpServletRequest request) {
+
     log.error("Caught BusinessException", ex);
 
-    ErrorDto errorDto = new ErrorDto();
-    errorDto.setError("Business exception caught");
+    ErrorResponse errorResponse =
+        ErrorResponse.builder()
+            .timestamp(Instant.now())
+            .status(ex.getStatus().value())
+            .errorCode(ex.getErrorCode())
+            .message(ex.getMessage())
+            .path(request.getRequestURI())
+            .build();
 
-    return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    return ResponseEntity.status(ex.getStatus()).body(errorResponse);
   }
 
   /**
-   * Handles cases where a requested ticket type does not exist.
+   * Handles validation errors triggered by @Valid or @Validated on request bodies.
    *
-   * @param ex the exception indicating the ticket type was not found
+   * @param ex the exception containing validation failure details
    * @return an error response with HTTP 400
    */
-  @ExceptionHandler(TicketTypeNotFoundException.class)
-  public ResponseEntity<ErrorDto> handleTicketTypeNotFoundException(
-      TicketTypeNotFoundException ex) {
-    log.error("Caught TicketTypeNotFoundException", ex);
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
+      MethodArgumentNotValidException ex, HttpServletRequest request) {
 
-    ErrorDto errorDto = new ErrorDto();
-    errorDto.setError("Ticket type not found");
+    log.error("Caught MethodArgumentNotValidException", ex);
 
-    return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    String errorMessage =
+        ex.getBindingResult().getFieldErrors().stream()
+            .findFirst()
+            .map(error -> error.getField() + ": " + error.getDefaultMessage())
+            .orElse("Validation failed");
+
+    ErrorResponse errorResponse =
+        ErrorResponse.builder()
+            .timestamp(Instant.now())
+            .status(HttpStatus.BAD_REQUEST.value())
+            .errorCode("VALIDATION_ERROR")
+            .message(errorMessage)
+            .path(request.getRequestURI())
+            .build();
+
+    return ResponseEntity.badRequest().body(errorResponse);
   }
 
   /**
-   * Handles cases where a requested user does not exist.
+   * Handles validation errors triggered by @Validated on parameters or path variables.
    *
-   * @param ex the exception indicating the user was not found
+   * @param ex the exception containing constraint violation details
    * @return an error response with HTTP 400
    */
-  @ExceptionHandler(UserNotFoundException.class)
-  public ResponseEntity<ErrorDto> handleUserNotFoundException(UserNotFoundException ex) {
-    log.error("Caught UserNotFoundException", ex);
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<ErrorResponse> handleConstraintViolation(
+      ConstraintViolationException ex, HttpServletRequest request) {
 
-    ErrorDto errorDto = new ErrorDto();
-    errorDto.setError("User not found");
+    log.error("Caught ConstraintViolationException", ex);
 
-    return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    String errorMessage =
+        ex.getConstraintViolations().stream()
+            .findFirst()
+            .map(v -> v.getPropertyPath() + ": " + v.getMessage())
+            .orElse("Constraint violation occurred");
+
+    ErrorResponse errorResponse =
+        ErrorResponse.builder()
+            .timestamp(Instant.now())
+            .status(HttpStatus.BAD_REQUEST.value())
+            .errorCode("CONSTRAINT_VIOLATION")
+            .message(errorMessage)
+            .path(request.getRequestURI())
+            .build();
+
+    return ResponseEntity.badRequest().body(errorResponse);
+  }
+
+  /**
+   * Handles requests to non-existent endpoints.
+   *
+   * @param ex the exception indicating no matching endpoint/resource exists
+   * @return an error response with HTTP 404
+   */
+  @ExceptionHandler(NoResourceFoundException.class)
+  public ResponseEntity<ErrorResponse> handleNoResourceFoundException(
+      NoResourceFoundException ex, HttpServletRequest request) {
+
+    log.warn("No endpoint found: {}", request.getRequestURI());
+
+    ErrorResponse errorResponse =
+        ErrorResponse.builder()
+            .timestamp(Instant.now())
+            .status(HttpStatus.NOT_FOUND.value())
+            .errorCode("ENDPOINT_NOT_FOUND")
+            .message("Endpoint not found")
+            .path(request.getRequestURI())
+            .build();
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
   }
 
   /**
@@ -104,12 +182,19 @@ public class GlobalExceptionHandler {
    * @return an error response with HTTP 500
    */
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<ErrorDto> handleException(Exception ex) {
-    log.error("Caught exception", ex);
+  public ResponseEntity<ErrorResponse> handleException(Exception ex, HttpServletRequest request) {
 
-    ErrorDto errorDto = new ErrorDto();
-    errorDto.setError("An unknown error occurred");
+    log.error("Caught unexpected exception", ex);
 
-    return new ResponseEntity<>(errorDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    ErrorResponse errorResponse =
+        ErrorResponse.builder()
+            .timestamp(Instant.now())
+            .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            .errorCode("INTERNAL_SERVER_ERROR")
+            .message("An unexpected error occurred")
+            .path(request.getRequestURI())
+            .build();
+
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
   }
 }
